@@ -1,0 +1,51 @@
+﻿@model Hotell.Models.Registration
+
+@{
+    ViewData["Title"] = "Registration";
+}
+
+
+
+<div class="form-registration">
+    <form asp-action="Registration">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="p-1">
+            <div class="form-floating">
+                <input type="text" asp-for="Firstname" class="form-control" id="firstnameInput">
+                <label for="firstnameInput">Firstname</label>
+                
+            </div>
+        </div>
+        <div class="p-1">
+            <div class="form-floating">
+                <input type="text" asp-for="Lastname" class="form-control" id="lastnameInput">
+                <label for="lastnameInput">Lastname</label>
+                
+            </div>
+        </div>
+        <div class="p-1">
+            <div class="form-floating">
+                <input type="text" asp-for="PersonalCode" class="form-control" id="personalCodeInput">
+                <label for="personalCodeInput">Personal Code</label>
+                
+            </div>
+        </div>
+        <div class="p-1">
+            <div class="form-floating">
+                <input type="email" asp-for="Email" class="form-control" id="emailInput">
+                <label for="emailInput">Email</label>
+                
+            </div>
+        </div>
+        <div class="p-1">
+            <div class="form-floating">
+                <button type="submit" class="btn btn-primary w-100 btn-lg">Registration</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

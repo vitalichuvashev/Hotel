@@ -1,0 +1,36 @@
+﻿@model Hotell.Models.User
+
+
+<div class="form-signin">
+    <p>
+        Admin email: admin@admin.ee
+    </p>
+    <p>
+        Personal code: 12345678910
+    </p>
+    <form asp-action="Login" asp-controller="Account">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="p-1">
+            <div class="form-floating">
+                <input type="email" asp-for="Email" class="form-control" id="emailInput">
+                <label for="emailInput">Email</label>
+                
+            </div>
+        </div>
+        <div class="p-1">
+            <div class="form-floating">
+                <input type="text" asp-for="PersonalCode" class="form-control" id="personalCodeInput">
+                <label for="personalCodeInput">Personal Code</label>
+                
+            </div>
+        </div>
+        <div class="p-1">
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

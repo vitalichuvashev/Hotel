@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@inject Hotell.ISessionManager sessionManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hotell</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Hotell.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+</head>
+<body>
+    <div class="container">
+
+    
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                @if (this.sessionManager.IsAuthenticated)
+                {
+                    @if (this.sessionManager.IsAdministrator())
+                    {
+                        <h4>Administrator dashboard</h4>
+                    }
+                    else
+                    {
+                        <h4> Hallo, @sessionManager.GetDisplayName()</h4>
+                    }
+                }
+                else
+                {
+                    <h4> Welcome, to sky hotel</h4>
+                }
+            </div>
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            @if (this.sessionManager.IsAuthenticated)
+            {
+                @if (this.sessionManager.IsAdministrator())
+                {
+                        <li class="nav-item">
+                            <a class="nav-link px-2" asp-area="" asp-controller="Admin" asp-action="Index">Guests and Bookings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-2 disabled" asp-area="" asp-controller="Admin" asp-action="Index">Cleaning Service</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-2 disabled" asp-area="" asp-controller="Admin" asp-action="Index">Rooms Management</a>
+                        </li>
+                }
+                else
+                {
+                        
+                   
+                    <li class="nav-item">
+                        <a class="nav-link px-2" asp-area="" asp-controller="Reception" asp-action="Index">Reception</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2" asp-area="" asp-controller="Booking" asp-action="Index">My Bookings</a>
+                    </li>
+                }
+            }
+
+        </ul>
+            <div class="col-md-3 text-end">
+                @if (this.sessionManager.IsAuthenticated)
+                {
+
+                    <a type="button" class="btn btn-outline-primary me-2" asp-controller="Account" asp-action="Logout">Logout</a>
+                    
+                    
+                }
+                else
+                {
+                    <a type="button" class="btn btn-outline-primary me-2" asp-controller="Account" asp-action="Login">Login</a>
+                    <a type="button" class="btn btn-outline-primary me-2" asp-controller="Account" asp-action="Registration">Sign-up</a>
+                }
+            </div>
+    </header>
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Hotell
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

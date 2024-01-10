@@ -1,0 +1,129 @@
+﻿@model Hotell.Models.Reception
+
+@{
+    ViewData["Title"] = "Booking reception";
+    
+}
+
+
+<div class="card mb-4 rounded-3 shadow-sm">
+    <div class="card-header">
+        <h5 class="fw-lighter">Booking reception</h5>
+    </div>
+    <div class="card-body">
+
+
+        <form asp-action="Search">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="row">
+                <div class="col">
+                    <div class="form-floating">
+                                    <input type="text" id="startDatePicker" value="@this.Model.SearchStartShortDate" asp-for="SearchStart" class="form-control" readonly placeholder="Select start date">
+                                    <label for="datepicker">Booking start</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-1">
+                <div class="col-5">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="IsCheaperFirst" id="cheaperFirst">
+                        <label class="form-check-label" for="cheaperFirst">
+                            Cheaper first
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-floating">
+                            <input type="text" id="endDatePicker" value="@Model.SearchEndShortDate" asp-for="SearchEnd" class="form-control" readonly placeholder="Select end date">
+                <label for="datepicker">Booking end</label>        
+            </div>
+        </div>
+    </div>
+                
+    <div class="row g-2 justify-content-center">
+        <div class="col-4 p-3">
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Search</button>
+        </div>
+    </div>
+</div>
+</form>
+    </div>
+</div>
+
+<div class="container">
+    
+    @foreach (var room in this.Model.Rooms) {
+
+        Model.Booking.RoomId = room.Id;
+        Model.Booking.Start = Model.SearchStart.GetValueOrDefault();
+        Model.Booking.End = Model.SearchEnd.GetValueOrDefault();
+        Model.Booking.RoomNumber = room.RoomNumber;
+
+        <form asp-controller="Booking" asp-action="Booking" method="post">
+            
+        <input type="hidden" asp-for="@Model.Booking.RoomId" />
+        <input type="hidden" asp-for="@Model.Booking.UserId" />
+        <input type="hidden" asp-for="@Model.Booking.Start" />
+        <input type="hidden" asp-for="@Model.Booking.End" />
+        <input type="hidden" asp-for="@Model.Booking.RoomNumber" />
+            
+            
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                    <div class="card-header py-3 text-bg-primary border-primary">
+                            <h5 class="my-0 fw-normal">Room Nr  @room.RoomNumber</h5>
+                    </div>
+                    <div class="card-body">
+                    
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <h2 class="card-title pricing-card-title">@room.Price&euro;<small class="text-body-secondary fw-light">/per night</small></h2>
+                                            <h6 class="fw-light">@Model.SearchStartShortDate - @Model.SearchEndShortDate</h6>
+                                    </div>
+                                    <div class="row">
+                                        <ul class="list-unstyled mt-3 mb-4 fw-light">
+                                            <li>
+                                                <h5 class="card-title pricing-card-title">
+                                                        @room.Beds
+                                                        <small class="text-body-secondary fw-light">
+                                                        @if (room.Beds > 1)
+                                                            @Html.Raw("beds")
+                                                        else
+                                                            @Html.Raw("bed")
+                                                        </small>
+                         
+                                                    </h5>
+                                            </li>
+                                            <li>Free WiFi</li>
+                                            <li>Free parking</li>
+                                            <li>Private Bathroom</li>
+                                            <li>Pet friendly</li>
+                                            <li>Non-smoking room</li>
+                                        </ul>
+                                    </div>
+                               
+                                </div>
+                                <div class="col-3">
+                                        <button type="submit" class="w-100 btn btn-md btn-primary">Book room nr @room.RoomNumber</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

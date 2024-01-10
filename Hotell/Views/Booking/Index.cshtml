@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Hotell.Models.Booking>
+
+@{
+    ViewData["Title"] = "My booking ";
+}
+
+<main class="container">
+    @if (ViewData["Message"] != null)
+    {
+        <div class="alert alert-info" role="alert">
+            @ViewData["Message"]
+        </div>
+    }
+    @if(ViewData["Alert"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData["Alert"]
+        </div>
+    }
+
+    <div class="align-items-center p-3 bg-primary text-white rounded shadow-sm">
+        <h5>My booking rooms</h5>
+    </div>
+
+    <div class="my-3 p-3 rounded shadow-sm">
+
+        @if((this.Model?.Count() ?? 0) == 0)
+        {
+
+            <h5 class="fw-light">Booking list is empty</h5>
+        }
+
+        @foreach (var booking in (this.Model ?? Enumerable.Empty<Hotell.Models.Booking>()))
+        {
+            
+        
+        <form asp-controller="Booking" asp-action="Remove" method="post">
+                <input type="hidden" asp-for="@booking.Id" />
+                <input type="hidden" asp-for="@booking.RoomNumber" />
+                <input type="hidden" asp-for="@booking.BedsAmount" />
+                <input type="hidden" asp-for="@booking.Price" />
+                <input type="hidden" asp-for="@booking.Start" />
+                <input type="hidden" asp-for="@booking.End" />
+       
+        <div class="d-flex text-body-secondary border-top pt-3">
+            <div class="pb-3 mb-0 small lh-sm w-100">
+             
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                        <h6>Room Nr <span class="fw-light">@booking.RoomNumber</span></h6>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <ul class="list-unstyled mt-3 mb-4 fw-light">
+                                        <li>
+                                            <h4 class="text-body-secondary fw-light">
+                                                    @booking.BedsAmount
+                                                    @if (booking.BedsAmount > 1)
+                                                        @Html.Raw("beds")
+                                                    else
+                                                        @Html.Raw("bed")
+                                                </h4>
+                                        </li>
+                                        <li>Free WiFi</li>
+                                        <li>Free parking</li>
+                                        <li>Private Bathroom</li>
+                                        <li>Pet friendly</li>
+                                        <li>Non-smoking room</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                                <h6 class="">Period: <span class="fw-light">@booking.Start.ToShortDateString() - @booking.End.ToShortDateString()</span></h6>
+                        </div>
+                        <div class="col">
+                                <h6>@booking.Price&euro;<span class="fw-light">/per night</span></h6>
+                        </div>
+                        <div class="col">
+                        <button type="submit" class="w-100 btn btn-md btn-primary">Remove booking</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        </form>
+        }
+        
+    </div>
+</main>

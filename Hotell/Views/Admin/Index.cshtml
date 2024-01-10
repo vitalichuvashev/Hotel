@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Hotell.Models.GuestBooking>
+
+<h3>Hotel guests</h3>
+<div class="table-responsive small">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Guest</th>
+                <th scope="col">Email</th>
+                <th scope="col">RoomNumber</th>
+                <th scope="col">Start date</th>
+                <th scope="col">End date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var guest in this.Model ?? Enumerable.Empty<Hotell.Models.GuestBooking>())
+            {
+                <tr>
+                    <td>@guest.Firstname @guest.Lastname</td>
+                    <td>@guest.Email</td>
+                    <td>@guest.RoomNumber</td>
+                    <td>@guest.StartDate.ToShortDateString()</td>
+                    <td>@guest.EndDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
